@@ -1,0 +1,30 @@
+.login-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  font-size: 0.9em;
+  gap: 25px;
+  margin: 0 auto;
+
+  &__title {
+    font-size: 2rem;
+    color: var(--blue-dark);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  &__input {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  &__submit {
+    margin-left: auto;
+  }
+
+  &__link {
+    color: var(--blue);
+  }
+}
