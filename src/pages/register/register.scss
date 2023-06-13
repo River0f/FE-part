@@ -1,4 +1,4 @@
-.login-form {
+.register-form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,9 +28,5 @@
     width: 100%;
     max-width: 400px;
     margin-top: -300px;
-  }
-
-  &__link {
-    color: var(--blue);
   }
 }

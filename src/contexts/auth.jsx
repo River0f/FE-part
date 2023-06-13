@@ -13,14 +13,25 @@ export const AuthProvider = ({ children }) => {
     (data) => loginAPI(data)
   );
 
+  const { mutateAsync: registerUser, isLoading: isRegistering } = useMutation(
+    (data) => loginAPI(data)
+  );
+
   const login = (email, password) => {
     const data = loginUser({ email, password });
     console.log(data);
   };
 
+  const register = (nickname, email, password) => {
+    const data = registerUser({ nickname, email, password });
+    console.log(data);
+  };
+
   const contextValue = {
     login,
+    register,
     isLogining,
+    isRegistering,
   };
 
   return (

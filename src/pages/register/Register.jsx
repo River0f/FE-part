@@ -1,35 +1,50 @@
 import { Controller, useForm } from "react-hook-form";
-import "./login.scss";
-import { Link } from "react-router-dom";
+import "./register.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
-import { LoginSchema } from "../../validation/login";
+import { RegisterSchema } from "../../validation/register";
 import { CustomTextField } from "../../styled-components/custom-text-field";
 import { PrimaryCustomButton } from "../../styled-components/primary-custom-button";
 
-export const Login = () => {
+export const Register = () => {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
+      nickname: "",
       email: "",
       password: "",
     },
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(RegisterSchema),
   });
-  const { login } = useContext(AuthContext);
+  const { register } = useContext(AuthContext);
 
   const onSubmit = async (data) => {
-    login(data);
+    register(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-      <h1 className="login-form__logo">Portal</h1>
-      <h2 className="login-form__title">Log in</h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+      <h1 className="register-form__logo">Portal</h1>
+      <h2 className="register-form__title">Sign up</h2>
+      <Controller
+        name="nickname"
+        control={control}
+        render={({ field }) => (
+          <CustomTextField
+            label="Nickname"
+            type="text"
+            size="small"
+            error={!!errors[field.name]}
+            helperText={errors[field.name]?.message || " "}
+            {...field}
+            className="register-form__input"
+          />
+        )}
+      />
       <Controller
         name="email"
         control={control}
@@ -41,7 +56,7 @@ export const Login = () => {
             error={!!errors[field.name]}
             helperText={errors[field.name]?.message || " "}
             {...field}
-            className="login-form__input"
+            className="register-form__input"
           />
         )}
       />
@@ -56,24 +71,18 @@ export const Login = () => {
             error={!!errors[field.name]}
             helperText={errors[field.name]?.message || " "}
             {...field}
-            className="login-form__input"
+            className="register-form__input"
           />
         )}
       />
       <PrimaryCustomButton
-        className="login-form__submit"
+        className="register-form__submit"
         variant="contained"
         type="submit"
         color="primary"
       >
-        Sign in
+        Sign up
       </PrimaryCustomButton>
-      <p>
-        Don&apos;t have an account yet?&nbsp;
-        <Link to="/register" className="login-form__link">
-          Sign up
-        </Link>
-      </p>
     </form>
   );
 };
