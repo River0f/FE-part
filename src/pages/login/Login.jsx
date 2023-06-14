@@ -1,12 +1,12 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import "./login.scss";
 import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { LoginSchema } from "../../validation/login";
-import { CustomTextField } from "../../styled-components/custom-text-field";
 import { PrimaryCustomButton } from "../../styled-components/primary-custom-button";
+import { TextField } from "../../components/text-field/TextField";
 
 export const Login = () => {
   const {
@@ -30,35 +30,21 @@ export const Login = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="login-form">
       <h1 className="login-form__logo">Portal</h1>
       <h2 className="login-form__title">Log in</h2>
-      <Controller
+      <TextField
+        control={control}
         name="email"
-        control={control}
-        render={({ field }) => (
-          <CustomTextField
-            label="Email"
-            size="small"
-            type="text"
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message || " "}
-            {...field}
-            className="login-form__input"
-          />
-        )}
+        label="Email"
+        type="text"
+        error={errors["email"]?.message}
+        className="login-form__input"
       />
-      <Controller
-        name="password"
+      <TextField
         control={control}
-        render={({ field }) => (
-          <CustomTextField
-            label="Password"
-            type="password"
-            size="small"
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message || " "}
-            {...field}
-            className="login-form__input"
-          />
-        )}
+        name="password"
+        label="Password"
+        type="password"
+        error={errors["password"]?.message}
+        className="login-form__input"
       />
       <PrimaryCustomButton
         className="login-form__submit"

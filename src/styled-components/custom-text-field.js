@@ -10,4 +10,10 @@ export const CustomTextField = styled(TextField)`
       border-color: var(--blue-dark);
     }
   }
+
+  & .MuiFilledInput-root {
+    &::after {
+      border-color: var(--blue-dark);
+    }
+  }
 `;

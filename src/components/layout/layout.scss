@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
   grid-template-rows: 50px auto 50px;
 }
@@ -16,6 +16,10 @@
     text-transform: uppercase;
     font-weight: 600;
   }
+}
+
+.main {
+  padding: 20px;
 }
 
 .footer {

@@ -1,11 +1,11 @@
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import "./register.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { RegisterSchema } from "../../validation/register";
-import { CustomTextField } from "../../styled-components/custom-text-field";
 import { PrimaryCustomButton } from "../../styled-components/primary-custom-button";
+import { TextField } from "../../components/text-field";
 
 export const Register = () => {
   const {
@@ -30,50 +30,31 @@ export const Register = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="register-form">
       <h1 className="register-form__logo">Portal</h1>
       <h2 className="register-form__title">Sign up</h2>
-      <Controller
+      <TextField
+        control={control}
         name="nickname"
-        control={control}
-        render={({ field }) => (
-          <CustomTextField
-            label="Nickname"
-            type="text"
-            size="small"
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message || " "}
-            {...field}
-            className="register-form__input"
-          />
-        )}
+        label="Nickname"
+        type="text"
+        error={errors["nickname"]?.message}
+        className="register-form__input"
       />
-      <Controller
+      <TextField
+        control={control}
         name="email"
-        control={control}
-        render={({ field }) => (
-          <CustomTextField
-            label="Email"
-            size="small"
-            type="text"
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message || " "}
-            {...field}
-            className="register-form__input"
-          />
-        )}
+        label="Email"
+        size="small"
+        type="text"
+        error={errors["email"]?.message}
+        className="register-form__input"
       />
-      <Controller
-        name="password"
+      <TextField
         control={control}
-        render={({ field }) => (
-          <CustomTextField
-            label="Password"
-            type="password"
-            size="small"
-            error={!!errors[field.name]}
-            helperText={errors[field.name]?.message || " "}
-            {...field}
-            className="register-form__input"
-          />
-        )}
+        name="password"
+        label="Password"
+        type="password"
+        size="small"
+        error={errors["password"]?.message}
+        className="register-form__input"
       />
       <PrimaryCustomButton
         className="register-form__submit"
