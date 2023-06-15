@@ -4,8 +4,8 @@ import { CreateArticleSchema } from "../../validation/article-create";
 import { TextField } from "../../components/text-field";
 import "./create.scss";
 import { useState } from "react";
-import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
+import { CustomEditor } from "../../components/editor";
 
 export const Create = () => {
   const {
@@ -46,28 +46,16 @@ export const Create = () => {
         <p className="create-form__short-label">
           Short article description(about 80 words):
         </p>
-        <Editor
-          wrapperClassName="wrapper-class"
-          editorClassName="editor-class"
-          toolbarClassName="toolbar-class"
+        <CustomEditor
           editorState={editorShortState}
-          onEditorStateChange={setEditorShortState}
-          toolbar={{
-            options: ["inline", "blockType"],
-          }}
+          setEditorState={setEditorShortState}
         />
       </label>
       <label>
         <p className="create-form__short-label">Main article content:</p>
-        <Editor
-          wrapperClassName="wrapper-class"
-          editorClassName="editor-class"
-          toolbarClassName="toolbar-class"
+        <CustomEditor
           editorState={editorMainState}
-          onEditorStateChange={setEditorMainState}
-          toolbar={{
-            options: ["inline", "blockType"],
-          }}
+          setEditorState={setEditorMainState}
         />
       </label>
     </form>
