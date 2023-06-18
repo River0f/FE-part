@@ -1,0 +1,16 @@
+@import "../../styles/mixins.scss";
+
+.posts {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 0;
+  @include lg {
+    padding: 0 20px;
+  }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}

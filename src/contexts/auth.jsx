@@ -1,35 +1,68 @@
-import React from "react";
-import { useMutation } from "react-query";
-import { login as loginAPI } from "../http/services/user";
+import React, { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getUser, login as loginAPI } from "../http/services/user";
 
 export const AuthContext = React.createContext({
   login: () => {},
-  logOut: () => {},
+  logout: () => {},
   setAuthToken: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
-  const { mutateAsync: loginUser, isLoading: isLogining } = useMutation(
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const queryClient = useQueryClient();
+
+  const { mutate: loginUser, isLoading: isLogining } = useMutation((data) =>
+    loginAPI(data)
+  );
+
+  const { mutate: registerUser, isLoading: isRegistering } = useMutation(
     (data) => loginAPI(data)
   );
 
-  const { mutateAsync: registerUser, isLoading: isRegistering } = useMutation(
-    (data) => loginAPI(data)
-  );
+  console.log(token);
 
-  const login = (email, password) => {
-    const data = loginUser({ email, password });
-    console.log(data);
+  const { data: user } = useQuery("user", () => getUser(), {
+    enabled: !(token === "null"),
+  });
+
+  const login = ({ email, password }, onLogin) => {
+    loginUser(
+      { email, password },
+      {
+        onSuccess: (data) => {
+          localStorage.setItem("token", data.token);
+          queryClient.invalidateQueries("user");
+          setToken(data.token);
+          onLogin();
+        },
+      }
+    );
+  };
+
+  const logout = () => {
+    setToken(null);
+    localStorage.removeItem("token");
+    queryClient.setQueriesData("user", () => undefined);
   };
 
   const register = (nickname, email, password) => {
-    const data = registerUser({ nickname, email, password });
-    console.log(data);
+    registerUser(
+      { nickname, email, password },
+      {
+        onSuccess: (data) => {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+        },
+      }
+    );
   };
 
   const contextValue = {
     login,
+    logout,
     register,
+    user: user || null,
     isLogining,
     isRegistering,
   };

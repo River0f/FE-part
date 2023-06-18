@@ -5,23 +5,23 @@ export const TextField = ({
   control,
   name,
   label,
-  error,
   className,
   type,
-  variant = "standart",
+  variant = "standard",
 }) => {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <CustomTextField
           label={label}
+          InputLabelProps={{ shrink: true }}
           size="small"
           variant={variant}
           type={type}
-          error={!!error}
-          helperText={error || " "}
+          error={!!fieldState.error}
+          helperText={fieldState.error?.message || " "}
           {...field}
           className={className}
         />

@@ -1,8 +1,8 @@
-import { $host } from "..";
+import { $authHost, $host } from "..";
 
 export const login = async ({ email, password }) => {
   const { data } = await $host.post("/users/login", { email, password });
-  return { data };
+  return data;
 };
 
 export const register = async ({ nickname, email, password }) => {
@@ -11,5 +11,10 @@ export const register = async ({ nickname, email, password }) => {
     email,
     password,
   });
-  return { data };
+  return data;
+};
+
+export const getUser = async () => {
+  const { data } = await $authHost.get("/users/me");
+  return data;
 };

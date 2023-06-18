@@ -1,3 +1,5 @@
+@import "../../styles/mixins.scss";
+
 .container {
   min-height: 100vh;
   display: grid;
@@ -8,18 +10,37 @@
   background-color: var(--blue-dark);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 50px;
+
+  @include sm {
+    padding: 0 20px;
+  }
 
   &__logo {
     color: var(--white);
     font-size: 1.2rem;
+    text-decoration: none;
     text-transform: uppercase;
     font-weight: 600;
+  }
+  &__login {
+    color: var(--white);
+    text-decoration: none;
+    text-transform: uppercase;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__user-panel {
+    display: flex;
+    color: var(--white);
   }
 }
 
 .main {
-  padding: 20px;
+  background: var(--background-grey);
 }
 
 .footer {

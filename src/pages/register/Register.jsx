@@ -4,15 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { RegisterSchema } from "../../validation/register";
-import { PrimaryCustomButton } from "../../styled-components/primary-custom-button";
 import { TextField } from "../../components/text-field";
+import { CustomButton } from "../../styled-components/custom-button";
 
 export const Register = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       nickname: "",
       email: "",
@@ -34,17 +30,16 @@ export const Register = () => {
         control={control}
         name="nickname"
         label="Nickname"
+        variant="outlined"
         type="text"
-        error={errors["nickname"]?.message}
         className="register-form__input"
       />
       <TextField
         control={control}
         name="email"
         label="Email"
-        size="small"
+        variant="outlined"
         type="text"
-        error={errors["email"]?.message}
         className="register-form__input"
       />
       <TextField
@@ -52,18 +47,17 @@ export const Register = () => {
         name="password"
         label="Password"
         type="password"
-        size="small"
-        error={errors["password"]?.message}
+        variant="outlined"
         className="register-form__input"
       />
-      <PrimaryCustomButton
+      <CustomButton
         className="register-form__submit"
         variant="contained"
         type="submit"
         color="primary"
       >
         Sign up
-      </PrimaryCustomButton>
+      </CustomButton>
     </form>
   );
 };

@@ -1,29 +1,27 @@
 import { useForm } from "react-hook-form";
 import "./login.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { LoginSchema } from "../../validation/login";
-import { PrimaryCustomButton } from "../../styled-components/primary-custom-button";
 import { TextField } from "../../components/text-field/TextField";
+import { CustomButton } from "../../styled-components/custom-button";
 
 export const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     resolver: yupResolver(LoginSchema),
   });
+
+  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
   const onSubmit = async (data) => {
-    login(data);
+    login(data, () => navigate("/"));
   };
 
   return (
@@ -33,30 +31,30 @@ export const Login = () => {
       <TextField
         control={control}
         name="email"
+        variant="outlined"
         label="Email"
         type="text"
-        error={errors["email"]?.message}
         className="login-form__input"
       />
       <TextField
         control={control}
         name="password"
+        variant="outlined"
         label="Password"
         type="password"
-        error={errors["password"]?.message}
         className="login-form__input"
       />
-      <PrimaryCustomButton
+      <CustomButton
         className="login-form__submit"
         variant="contained"
         type="submit"
         color="primary"
       >
         Sign in
-      </PrimaryCustomButton>
+      </CustomButton>
       <p>
         Don&apos;t have an account yet?&nbsp;
-        <Link to="/register" className="login-form__link">
+        <Link to="/registration" className="login-form__link">
           Sign up
         </Link>
       </p>

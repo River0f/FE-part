@@ -1,3 +1,5 @@
+@import "../../styles/mixins.scss";
+
 .login-form {
   display: flex;
   align-items: center;
@@ -7,6 +9,9 @@
   font-size: 0.9em;
   gap: 10px;
   margin: 0 auto;
+  @include sm {
+    padding: 0 20px;
+  }
 
   &__logo {
     font-size: 3rem;

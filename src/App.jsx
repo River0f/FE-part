@@ -4,27 +4,58 @@ import { Login } from "./pages/login";
 import { Layout } from "./components/layout";
 import { Register } from "./pages/register/Register";
 import { Create } from "./pages/create";
+import { Posts } from "./pages/posts/";
+import { PostDetails } from "./pages/post-details";
+import { AuthProvider } from "./contexts/auth";
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/login",
-      element: <Login />,
+      element: (
+        <Layout>
+          <Login />
+        </Layout>
+      ),
     },
     {
-      path: "/register",
-      element: <Register />,
+      path: "/registration",
+      element: (
+        <Layout>
+          <Register />
+        </Layout>
+      ),
     },
     {
-      path: "/posts/create",
-      element: <Create />,
+      path: "/create",
+      element: (
+        <Layout>
+          <Create />
+        </Layout>
+      ),
+    },
+    {
+      path: "/",
+      element: (
+        <Layout>
+          <Posts />
+        </Layout>
+      ),
+    },
+    {
+      path: "/:id",
+      element: (
+        <Layout>
+          <PostDetails />
+        </Layout>
+      ),
     },
   ]);
 
   return (
-    <Layout>
-      <RouterProvider router={router} />
-    </Layout>
+    <AuthProvider>
+      <RouterProvider router={router} />;
+    </AuthProvider>
   );
 };
 

@@ -1,23 +1,30 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { CreateArticleSchema } from "../../validation/article-create";
 import { TextField } from "../../components/text-field";
 import "./create.scss";
 import { useState } from "react";
 import { EditorState } from "draft-js";
 import { CustomEditor } from "../../components/editor";
+import { useCategories } from "../../hooks/useCategories";
+import { createOptions } from "../../helpers/utils";
+import { Button, FormHelperText, MenuItem } from "@mui/material";
+import { CustomSelect } from "../../styled-components/custom-select";
+import { CustomButton } from "../../styled-components/custom-button";
+import { stateToHTML } from "draft-js-export-html";
+import { usePosts } from "../../hooks/usePosts";
 
 export const Create = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
       title: "",
+      image: null,
+      categoryId: -1,
     },
     resolver: yupResolver(CreateArticleSchema),
   });
+
+  const { categories } = useCategories();
 
   const [editorShortState, setEditorShortState] = useState(() =>
     EditorState.createEmpty()
@@ -27,8 +34,18 @@ export const Create = () => {
     EditorState.createEmpty()
   );
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  const { createPost } = usePosts();
+
+  const onSubmit = async ({ title, image, categoryId }) => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("categoryId", categoryId);
+    formData.append("short", stateToHTML(editorShortState.getCurrentContent()));
+    formData.append("body", stateToHTML(editorMainState.getCurrentContent()));
+    if (image) {
+      formData.append("image", image);
+    }
+    createPost(formData);
   };
 
   return (
@@ -39,25 +56,71 @@ export const Create = () => {
         control={control}
         variant="filled"
         label="Title"
-        error={errors["title"]?.message}
         className="create-form__input"
       />
-      <label>
-        <p className="create-form__short-label">
-          Short article description(about 80 words):
-        </p>
+      <Controller
+        name="categoryId"
+        control={control}
+        render={({ field, fieldState }) => (
+          <div>
+            <CustomSelect
+              {...field}
+              size="small"
+              error={!!fieldState.error}
+              className="create-form__category"
+            >
+              {createOptions(categories, "name", "Choose category").map(
+                (category) => (
+                  <MenuItem value={category.value} key={category.value}>
+                    {category.label}
+                  </MenuItem>
+                )
+              )}
+            </CustomSelect>
+            <FormHelperText className="error-text" error>
+              {fieldState.error?.message || " "}
+            </FormHelperText>
+          </div>
+        )}
+      />
+      <input
+        accept="image/*"
+        className="create-form__file-upload"
+        name="image"
+        onChange={(e) => setValue("image", e.target.files[0])}
+        style={{ display: "none" }}
+        id="raised-button-file"
+        type="file"
+      />
+      <label htmlFor="raised-button-file">
+        <span>Upload header image:&nbsp;</span>
+        <Button variant="raised" color="primary" component="span">
+          Upload
+        </Button>
+        <span>{getValues("image")?.name}</span>
+      </label>
+      <label className="create-form__editor-label">
+        Short article description(about 80 words):
         <CustomEditor
           editorState={editorShortState}
-          setEditorState={setEditorShortState}
+          onEditorStateChange={setEditorShortState}
         />
       </label>
-      <label>
-        <p className="create-form__short-label">Main article content:</p>
+      <label className="create-form__editor-label">
+        Main article content:
         <CustomEditor
           editorState={editorMainState}
-          setEditorState={setEditorMainState}
+          onEditorStateChange={setEditorMainState}
         />
       </label>
+      <CustomButton
+        variant="contained"
+        type="submit"
+        color="primary"
+        className="create-form__submit"
+      >
+        Create
+      </CustomButton>
     </form>
   );
 };

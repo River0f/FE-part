@@ -1,0 +1,12 @@
+.post-details {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--white);
+  height: 100%;
+  &__title {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+}

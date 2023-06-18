@@ -2,15 +2,7 @@ import "./editor.scss";
 import { Editor } from "react-draft-wysiwyg";
 
 const toolbarOptions = {
-  options: [
-    "inline",
-    "textAlign",
-    "list",
-    "link",
-    "fontSize",
-    "colorPicker",
-    "emoji",
-  ],
+  options: ["inline", "textAlign", "list", "link", "fontSize", "emoji"],
   inline: { inDropdown: true },
   list: { inDropdown: true },
   textAlign: { inDropdown: true },
@@ -24,14 +16,20 @@ const toolbarOptions = {
   },
 };
 
-export const CustomEditor = ({ editorState, setEditorState }) => {
+export const CustomEditor = ({
+  editorState,
+  onEditorStateChange,
+  onChange,
+}) => {
   return (
     <Editor
       wrapperClassName="wrapper-class"
       editorClassName="editor-class"
       toolbarClassName="toolbar-class"
       editorState={editorState}
-      onEditorStateChange={setEditorState}
+      onChange={onChange}
+      onEditorStateChange={onEditorStateChange}
+      stripPastedStyles
       toolbar={toolbarOptions}
     />
   );
