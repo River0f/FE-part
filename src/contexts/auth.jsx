@@ -20,10 +20,8 @@ export const AuthProvider = ({ children }) => {
     (data) => loginAPI(data)
   );
 
-  console.log(token);
-
   const { data: user } = useQuery("user", () => getUser(), {
-    enabled: !(token === "null"),
+    enabled: !(token === "null" || !token),
   });
 
   const login = ({ email, password }, onLogin) => {

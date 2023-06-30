@@ -14,3 +14,10 @@ export const getPost = async (id) => {
   const { data } = await $host.get(`posts/${id}`);
   return data;
 };
+
+export const createComment = async (id, comment) => {
+  const { data } = await $authHost.post(`posts/${id}/create-comment`, {
+    commentText: comment,
+  });
+  return data;
+};

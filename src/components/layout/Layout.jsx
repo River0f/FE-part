@@ -16,21 +16,26 @@ export const Layout = ({ children }) => {
           </Link>
         </h1>
         {!user ? (
-          <Link to="/login" className="header__login">
+          <Link to="/login" className="header__auth">
             Login
           </Link>
         ) : (
           <div className="header__user-panel">
-            <UserData userName={user.nickname} userAvatar={user.avatar} />
-            <Button onClick={() => logout()}>Log out</Button>
-            <Link to="/create" className="header__logo">
+            <Link to="/create" className="header__create">
               Create post
             </Link>
+            <UserData userName={user.nickname} userAvatar={user.avatar} />
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => logout()}
+            >
+              Log out
+            </Button>
           </div>
         )}
       </header>
       <main className="main">{children}</main>
-      <footer className="footer"></footer>
     </div>
   );
 };

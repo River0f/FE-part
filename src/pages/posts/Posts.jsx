@@ -6,7 +6,9 @@ import "./posts.scss";
 export const Posts = () => {
   const { posts, postsQuery } = usePosts();
   return postsQuery.isLoading ? (
-    <CircularProgress />
+    <div className="loading">
+      <CircularProgress />
+    </div>
   ) : (
     <div className="posts">
       <h1>Posts</h1>
