@@ -13,6 +13,8 @@ import { CustomSelect } from "../../styled-components/custom-select";
 import { CustomButton } from "../../styled-components/custom-button";
 import { stateToHTML } from "draft-js-export-html";
 import { usePosts } from "../../hooks/usePosts";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "react-query";
 
 export const Create = () => {
   const { control, handleSubmit, setValue, getValues } = useForm({
@@ -24,7 +26,10 @@ export const Create = () => {
     resolver: yupResolver(CreateArticleSchema),
   });
 
+  const navigate = useNavigate();
+
   const { categories } = useCategories();
+  const queryClient = useQueryClient();
 
   const [editorShortState, setEditorShortState] = useState(() =>
     EditorState.createEmpty()
@@ -45,7 +50,12 @@ export const Create = () => {
     if (image) {
       formData.append("image", image);
     }
-    createPost(formData);
+    createPost(formData, {
+      onSuccess: () => {
+        navigate("/");
+        queryClient.invalidateQueries("posts");
+      },
+    });
   };
 
   return (

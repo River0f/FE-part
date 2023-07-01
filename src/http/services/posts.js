@@ -5,8 +5,11 @@ export const createPost = async (postData) => {
   return data;
 };
 
-export const getPosts = async (categoryId) => {
-  const { data } = await $host.get("/posts", null, { params: { categoryId } });
+export const getPosts = async (categoryId, page) => {
+  console.log(page);
+  const { data } = await $host.get("/posts", {
+    params: { categoryId, page },
+  });
   return data;
 };
 

@@ -1,17 +1,18 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
 import { usePosts } from "../../hooks/usePosts";
 import { PostListItem } from "../../components/post-list-item";
 import "./posts.scss";
 
 export const Posts = () => {
-  const { posts, postsQuery } = usePosts();
+  const { posts, meta, postsQuery, page, handleChangePage } = usePosts();
+
   return postsQuery.isLoading ? (
     <div className="loading">
       <CircularProgress />
     </div>
   ) : (
     <div className="posts">
-      <h1>Posts</h1>
+      <h1 className="posts__title">Posts</h1>
       <div className="posts__list">
         {posts.map(({ id, title, short, image, category, date, user }) => (
           <PostListItem
@@ -27,6 +28,12 @@ export const Posts = () => {
           />
         ))}
       </div>
+      <Pagination
+        className="posts__pagination"
+        count={meta.total_pages}
+        page={page}
+        onChange={(_, value) => handleChangePage(value)}
+      />
     </div>
   );
 };

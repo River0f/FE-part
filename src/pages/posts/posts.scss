@@ -4,6 +4,8 @@
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
   padding: 20px 0;
   @include lg {
     padding: 0 20px;
@@ -12,6 +14,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+
+  &__pagination {
+    margin-left: auto;
+    margin-top: 20px;
   }
 }
 
